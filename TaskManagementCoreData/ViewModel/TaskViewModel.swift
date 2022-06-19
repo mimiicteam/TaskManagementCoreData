@@ -7,18 +7,6 @@
 
 import SwiftUI
 class TaskViewModel: ObservableObject {
-    //MARK: - Sample Task
-    @Published var storedTasks: [Task] = [
-        Task(taskTitle: "Meeting", taskDescription: "Discuss team task for the day", taskDate: .init(timeIntervalSince1970: 1655597357)),
-        Task(taskTitle: "Icon set", taskDescription: "Edit icons for team task for next weeks", taskDate: .init(timeIntervalSince1970: 1655598357)),
-        Task(taskTitle: "Prototype", taskDescription: "Make and send prototype", taskDate: .init(timeIntervalSince1970: 1655697357)),
-        Task(taskTitle: "Check asset", taskDescription: "Start checking the assets", taskDate: .init(timeIntervalSince1970: 1655114455)),
-        Task(taskTitle: "Team party", taskDescription: "Make fun with team assets", taskDate: .init(timeIntervalSince1970: 1655599357)),
-        Task(taskTitle: "Client Meeting", taskDescription: "Explain project to client", taskDate: .init(timeIntervalSince1970: 1655132448)),
-        Task(taskTitle: "Next Project", taskDescription: "Discuss next project with team", taskDate: .init(timeIntervalSince1970: 1655137848)),
-        Task(taskTitle: "App Proposal", taskDescription: "Meet client for next App Proposal", taskDate: .init(timeIntervalSince1970: 1655148648)),
-    ]
-    
     //MARK: - Current Week Days
     @Published var currentWeek: [Date] = []
     
@@ -31,27 +19,8 @@ class TaskViewModel: ObservableObject {
     //MARK: - Intializing
     init() {
         fetchCurrentWeek()
-        filterTodayTasks()
     }
     
-    //MARK: - Filter Today Tasks
-    func filterTodayTasks() {
-        DispatchQueue.global(qos: .userInteractive).async {
-            let calendar = Calendar.current
-            let filtered = self.storedTasks.filter {
-                return calendar.isDate($0.taskDate, inSameDayAs: self.currentDay)
-            }
-                .sorted { task1, task2 in
-                    return task2.taskDate > task1.taskDate
-                }
-            
-            DispatchQueue.main.async {
-                withAnimation {
-                    self.filteredTask = filtered
-                }
-            }
-        }
-    }
     
     func fetchCurrentWeek() {
         let today = Date()
