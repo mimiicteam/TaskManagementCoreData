@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct NewTask: View {
+    @Environment(\.dismiss) var dismiss
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct NewTask_Previews: PreviewProvider {
-    static var previews: some View {
-        NewTask()
+        NavigationView {
+            List {
+                
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("Add New Task")
+            .navigationBarTitleDisplayMode(.inline)
+            //MARK: - Disbaling Dismiss on Swipe
+            .interactiveDismissDisabled()
+            //MARK: - Action Buttons
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Save") {
+                        
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
